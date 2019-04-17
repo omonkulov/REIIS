@@ -1,22 +1,23 @@
-##Index
+# Index
+
 - My Comments & Revisement.
 - REAL ESTATE INQUIRY INFORMATION SYSTEM (REIIS)
 
 
 
-##My Comments & Revisement.
+## My Comments & Revisement.
 
 A Real Estate Inquiry Information System (REIIS) must be created and include inheritance and class hierarchies (a super class and subclasses). The program(s) must include inheritance concepts and applications for credit to be given for the assignment. The REIIS will allow the input of the real estate data, process of the real estate data, and output of the real estate information.
 
 
 
-##REAL ESTATE INQUIRY INFORMATION SYSTEM (REIIS)
+## REAL ESTATE INQUIRY INFORMATION SYSTEM (REIIS)
 
 A Real Estate Inquiry Information System (REIIS) must be created and include inheritance and class hierarchies (a super class and subclasses). The program(s) must include inheritance concepts and applications for credit to be given for the assignment. The REIIS will allow the input of the real estate data, process of the real estate data, and output of the real estate information.
 
 
 
-####Real Estate Companies – Super Class
+#### Real Estate Companies – Super Class
 
 The super class should include the real estate:  
 -    company number
@@ -58,7 +59,7 @@ A sub class should include the real estate:
        - total property taxes
 
 
-####Commercial Property Sub Class
+#### Commercial Property Sub Class
    The commercial property taxes should define the abstract methods (with overriding) to calculate the: 
    - total assessed property value (land + building)
    - local tax
@@ -75,7 +76,7 @@ To calculate the taxes use:
    
   Be sure to define the tax rates as final constants in the commercial class.
 
-####Residential Property Sub Class
+#### Residential Property Sub Class
 The residential property taxes should define the abstract methods (with overriding) to calculate the:
    - total assessed property value (land + building)
    - local tax
@@ -94,7 +95,7 @@ To calculate the taxes use:
 Be sure to define the tax rates as final constants in the residential class.  
 I could have included other real estate data fields, but I wanted to simplify the information system.Additionally, I included fields (primary and foreign keys) to allow for future database application interfacing but this will not be a requirement for this assignment.
 
-####THE REAL ESTATE CLASS CONSIDERATIONS
+#### THE REAL ESTATE CLASS CONSIDERATIONS
 Your classes representing the real estate/property must include 
 - inheritance
 - the data fields
@@ -110,17 +111,17 @@ The appropriate classes should also include
 
 The real estate classes should not contain any programming code relating to inputting of the data or outputting or displaying of the information for this should be handled by the GUI (Graphical User Interface).  No GUI programming code should be contained in any of the Real Estate class (.java) files.
 
-####GRAPHICAL USER INTERFACE PROGRAM(S)
+#### GRAPHICAL USER INTERFACE PROGRAM(S)
 Students are to create GUI (Graphical User Interfaces) programming techniques via a separate class (.java file). You can design more than one .java file but only is required to interface with the real estate .java classes. All of the Java statements must be written by the student. In other words, students are NOT allowed to use an interface in an IDE (Interactive Development Environment) that generates the Java code automatically.
 
 Also, students are NOT allowed to use the API (Application Programming Interface) classes Scanner or JOptionPane for input. Students are permitted to use the JOptionPane class to display all of the sales information. Students can use labels, button(s), radio button(s), check box(es), menus, sliders, etc., to create the GUI. Keep in mind that the GUI class must be a separate .java file from the real estate .java classes. Assume there will be multiple property inquiries.
 
 
 
-####INPUT DATA via GUI
+#### INPUT DATA via GUI
 For the real estate classes, you GUI must be able to accept the data from the user’s screen and interface with the real estate classes. The input data to the REIIS classes should include the real estate class data, the real estate listing agent data, as well as the multi list property data. You could incorporate data validation programming techniques (try and catch, for example) but this is not required for this assignment.Make up test data when inputting the data for each object.
 
-####OUTPUT DETAILED INFORMATION (for each object) 
+#### OUTPUT DETAILED INFORMATION (for each object) 
 For each real estate information system inquiry, your program should output the following detailed information:
  - real estate company number
  - real estate company name
