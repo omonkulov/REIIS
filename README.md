@@ -2,7 +2,7 @@
 
 - [My Comments & Revisement.](#1)
 - [REAL ESTATE INQUIRY INFORMATION SYSTEM (REIIS)](#2)
-
+- [List of things to learn](#3)
 
 
 ## <a id="1"></a>My Comments & Revisement.
@@ -146,3 +146,15 @@ For each real estate information system inquiry, your program should output the 
 Be sure to verify your program results prior to submitting your work.
 Students can use the JOptionPane class to display each real estate property information.
 Your REIIS should allow the user to continue to generate individual property information for each real estate inquiry until the user decides to stop the program (the user clicks the EXIT button in the GUI, for example).
+
+
+## <a id="3"></a> Things To Learn
+
+The followings are required to be mastered:
+- GUI componenets
+- inheritance
+- super
+- sub-class
+- abstract class/methods
+- overriding
+- acessor & mutator methods
