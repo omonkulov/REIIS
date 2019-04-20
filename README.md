@@ -153,8 +153,9 @@ Your REIIS should allow the user to continue to generate individual property inf
 The followings are required to be mastered:
 - GUI componenets
 - inheritance
-- super
-- sub-class
+ - Super Class: Parent class
+ - Sub Class: Child class
+ - Reusabilty: Functionality of inheritance
 - abstract class/methods
 - overriding
 - acessor & mutator methods
