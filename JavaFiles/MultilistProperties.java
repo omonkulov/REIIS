@@ -15,7 +15,7 @@ public abstract class MultilistProperties extends RealEstateAgents {
             char propertyType, String propertyAddress, String propertyState, String propertyZipCode, double askingPrice,
             double landValue, double buildingValue) {
 
-        super(companyNumber, companyName, companyAddress, companyCity, companyState, zipCode, companyEmail,
+        super(companyNumber, companyName, companyAddress, companyCity, companyState, companyZipCode, companyEmail,
                 companyPhoneNumber, agentNumber, agentFullName, agentEmail, agentPhoneNumber);
 
         this.propertyNumber = propertyNumber;
@@ -29,13 +29,145 @@ public abstract class MultilistProperties extends RealEstateAgents {
         this.buildingValue = buildingValue;
     }
 
-    abstract void initPropertyvalue();
+    public abstract void initPropertyvalue(double landValue, double buildingValue);
 
-    abstract void initLocalTax();
+    public abstract void initLocalTax();
 
-    abstract void initSchoolPropertyTax();
+    public abstract void initSchoolPropertyTax();
 
-    abstract void initTotalTax();
+    public abstract void initTotalTax();
 
-    abstract void initCountyTax();
+    public abstract void initCountyTax();
+
+    public abstract void upDateInfo();
+
+    /**
+     * @return the propertyNumber
+     */
+    public int getPropertyNumber() {
+        return propertyNumber;
+    }
+
+    /**
+     * @param propertyNumber the propertyNumber to set
+     */
+    public void setPropertyNumber(int propertyNumber) {
+        this.propertyNumber = propertyNumber;
+        upDateInfo();
+    }
+
+    /**
+     * @return the parcelNumber
+     */
+    public int getParcelNumber() {
+        return parcelNumber;
+    }
+
+    /**
+     * @param parcelNumber the parcelNumber to set
+     */
+    public void setParcelNumber(int parcelNumber) {
+        this.parcelNumber = parcelNumber;
+    }
+
+    /**
+     * @return the propertyType
+     */
+    public char getPropertyType() {
+        return propertyType;
+    }
+
+    /**
+     * @param propertyType the propertyType to set
+     */
+    public void setPropertyType(char propertyType) {
+        this.propertyType = propertyType;
+    }
+
+    /**
+     * @return the propertyAddress
+     */
+    public String getPropertyAddress() {
+        return propertyAddress;
+    }
+
+    /**
+     * @param propertyAddress the propertyAddress to set
+     */
+    public void setPropertyAddress(String propertyAddress) {
+        this.propertyAddress = propertyAddress;
+    }
+
+    /**
+     * @return the propertyState
+     */
+    public String getPropertyState() {
+        return propertyState;
+    }
+
+    /**
+     * @param propertyState the propertyState to set
+     */
+    public void setPropertyState(String propertyState) {
+        this.propertyState = propertyState;
+    }
+
+    /**
+     * @return the propertyZipCode
+     */
+    public String getPropertyZipCode() {
+        return propertyZipCode;
+    }
+
+    /**
+     * @param propertyZipCode the propertyZipCode to set
+     */
+    public void setPropertyZipCode(String propertyZipCode) {
+        this.propertyZipCode = propertyZipCode;
+    }
+
+    /**
+     * @return the askingPrice
+     */
+    public double getAskingPrice() {
+        return askingPrice;
+    }
+
+    /**
+     * @param askingPrice the askingPrice to set
+     */
+    public void setAskingPrice(double askingPrice) {
+        this.askingPrice = askingPrice;
+    }
+
+    /**
+     * @return the landValue
+     */
+    public double getLandValue() {
+        return landValue;
+    }
+
+    /**
+     * @param landValue the landValue to set
+     */
+    public void setLandValue(double landValue) {
+        this.landValue = landValue;
+        upDateInfo();
+    }
+
+    /**
+     * @return the buildingValue
+     */
+    public double getBuildingValue() {
+        return buildingValue;
+    }
+
+    /**
+     * @param buildingValue the buildingValue to set
+     */
+    public void setBuildingValue(double buildingValue) {
+        this.buildingValue = buildingValue;
+        upDateInfo();
+    }
+
 }

@@ -1,4 +1,4 @@
-public class RealEcompanyStateCompanies {
+public class RealEstateCompanies {
     private int companyNumber;
     private String companyName;
     private String companyAddress;
@@ -7,7 +7,7 @@ public class RealEcompanyStateCompanies {
     private String companyZipCode;
     private String companyEmail;
 
-    public RealEcompanyStateCompanies(int companyNumber, String companyName, String companyAddress, String companyCity,
+    public RealEstateCompanies(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber) {
         this.companyNumber = companyNumber;
         this.companyName = companyName;
@@ -16,7 +16,6 @@ public class RealEcompanyStateCompanies {
         this.companyState = companyState;
         this.companyZipCode = companyZipCode;
         this.companyEmail = companyEmail;
-        this.companyPhoneNumber = companyPhoneNumber;
     }
 
     /**

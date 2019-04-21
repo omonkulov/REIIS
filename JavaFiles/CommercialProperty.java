@@ -12,6 +12,7 @@ public class CommercialProperty extends MultilistProperties {
     private double schoolTax;
     private double totalTax;
 
+    // TODO: Overload the constructors!
     public CommercialProperty(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber, int propertyNumber, int parcelNumber,
@@ -48,27 +49,36 @@ public class CommercialProperty extends MultilistProperties {
     }
 
     @Override
-    void initPropertyvalue(double landValue, double buildingValue) {
+    public void initPropertyvalue(double landValue, double buildingValue) {
         this.totalPropertyValue = landValue + buildingValue;
     }
 
     @Override
-    void initLocalTax() {
+    public void initLocalTax() {
         this.localTax = LOCAL_RATE * this.totalPropertyValue;
     }
 
     @Override
-    void initSchoolPropertyTax() {
+    public void initSchoolPropertyTax() {
         this.schoolTax = SCHOOL_TAX * this.totalPropertyValue;
     }
 
     @Override
-    void initCountyTax() {
+    public void initCountyTax() {
         this.countyTax = COUNTY_RATE * this.totalPropertyValue;
     }
 
     @Override
-    void initTotalTax() {
+    public void initTotalTax() {
         this.totalTax = this.schoolTax + this.countyTax + this.localTax;
+    }
+
+    @Override
+    public void upDateInfo() {
+        initPropertyvalue(this.getBuildingValue(), this.getLandValue());
+        initLocalTax();
+        initSchoolPropertyTax();
+        initCountyTax();
+        initTotalTax();
     }
 }
