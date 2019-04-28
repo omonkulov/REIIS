@@ -1,15 +1,23 @@
 #!/bin/bash
 # sysinfo_page 
 
-echo "MainClass = " $1
+
+
+if [[ $# -eq 0 ]]
+
+ then
+ printf "\e[31mNo Argument!\e[0m\n"
+ exit 0
+
+fi
 javac $1
-echo "Complied.. "
-echo "Running.."
-echo "----------" 
+printf "\e[32mComplied.. \n"
+printf "Running..\n"
+printf "%s\n\n\e[0m" '----------' 
 java $(echo "$1" | cut -f 1 -d '.')
-echo "----------" 
-echo "Program Closed."
-echo "Cleaning up '.class' files"
+printf "\e[32m\n\n----------\n" 
+printf "Program Closed.\n"
+printf "Cleaning up \e[31m'.class' \e[32mfiles\n"
 rm *.class
-echo -e "\e[32mFinished! \e[0m"
+printf "\e[32mFinished! \e[0m\n"
 

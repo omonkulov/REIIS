@@ -5,6 +5,14 @@ public class RealEstateAgents extends RealEstateCompanies {
     private String agentEmail;
     private String agentPhoneNumber;
 
+    public RealEstateAgents() {
+        super();
+        this.agentNumber = -1;
+        this.agentFullName = "N/A";
+        this.agentEmail = "N/A";
+        this.agentPhoneNumber = "N/A";
+    }
+
     public RealEstateAgents(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber) {

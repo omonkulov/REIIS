@@ -13,16 +13,35 @@ public class CommercialProperty extends MultilistProperties {
     private double totalTax;
 
     // TODO: Overload the constructors!
+    public CommercialProperty() {
+        super();
+        this.totalPropertyValue = 0;
+        this.localTax = 0;
+        this.countyTax = 0;
+        this.schoolTax = 0;
+        this.totalTax = 0;
+    }
+
+    public CommercialProperty(String companyName, int companyNumber, String agentFullName, int agentNumber,
+            String agentPhoneNumber, int propertyNumber, int parcelNumber, char propertyType, String propertyAddress,
+            String propertyCity, String propertyState, String propertyZipCode, double askingPrice, double buildingValue,
+            double landValue) {
+
+        super(companyNumber, companyName, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", agentNumber, agentFullName, "N/A",
+                agentPhoneNumber, propertyNumber, parcelNumber, propertyType, propertyAddress, propertyCity,
+                propertyState, propertyZipCode, askingPrice, landValue, buildingValue);
+    }
+
     public CommercialProperty(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber, int propertyNumber, int parcelNumber,
-            char propertyType, String propertyAddress, String propertyState, String propertyZipCode, double askingPrice,
-            double landValue, double buildingValue) {
+            char propertyType, String propertyAddress, String propertyCity, String propertyState,
+            String propertyZipCode, double askingPrice, double landValue, double buildingValue) {
 
         super(companyNumber, companyName, companyAddress, companyCity, companyState, companyZipCode, companyEmail,
                 companyPhoneNumber, agentNumber, agentFullName, agentEmail, agentPhoneNumber, propertyNumber,
-                parcelNumber, propertyType, propertyAddress, propertyState, propertyZipCode, askingPrice, landValue,
-                buildingValue);
+                parcelNumber, propertyType, propertyAddress, propertyCity, propertyState, propertyZipCode, askingPrice,
+                landValue, buildingValue);
 
         initPropertyvalue(landValue, buildingValue);
         initLocalTax();

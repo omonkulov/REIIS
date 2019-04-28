@@ -2,6 +2,7 @@ public abstract class MultilistProperties extends RealEstateAgents {
     private int propertyNumber;
     private int parcelNumber;
     private char propertyType;
+    private String propertyCity;
     private String propertyAddress;
     private String propertyState;
     private String propertyZipCode;
@@ -9,11 +10,24 @@ public abstract class MultilistProperties extends RealEstateAgents {
     private double landValue;
     private double buildingValue;
 
+    public MultilistProperties() {
+        super();
+        this.propertyNumber = -1;
+        this.parcelNumber = 0;
+        this.propertyType = '?';
+        this.propertyAddress = "N/A";
+        this.propertyState = "N/A";
+        this.propertyZipCode = "N/A";
+        this.askingPrice = 0.00;
+        this.landValue = 0.00;
+        this.buildingValue = 0.00;
+    }
+
     public MultilistProperties(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber, int propertyNumber, int parcelNumber,
-            char propertyType, String propertyAddress, String propertyState, String propertyZipCode, double askingPrice,
-            double landValue, double buildingValue) {
+            char propertyType, String propertyAddress, String propertyCity, String propertyState,
+            String propertyZipCode, double askingPrice, double landValue, double buildingValue) {
 
         super(companyNumber, companyName, companyAddress, companyCity, companyState, companyZipCode, companyEmail,
                 companyPhoneNumber, agentNumber, agentFullName, agentEmail, agentPhoneNumber);
@@ -27,6 +41,7 @@ public abstract class MultilistProperties extends RealEstateAgents {
         this.askingPrice = askingPrice;
         this.landValue = landValue;
         this.buildingValue = buildingValue;
+        this.propertyCity = propertyCity;
     }
 
     public abstract void initPropertyvalue(double landValue, double buildingValue);
@@ -168,6 +183,20 @@ public abstract class MultilistProperties extends RealEstateAgents {
     public void setBuildingValue(double buildingValue) {
         this.buildingValue = buildingValue;
         upDateInfo();
+    }
+
+    /**
+     * @return the propertyCity
+     */
+    public String getPropertyCity() {
+        return propertyCity;
+    }
+
+    /**
+     * @param propertyCity the propertyCity to set
+     */
+    public void setPropertyCity(String propertyCity) {
+        this.propertyCity = propertyCity;
     }
 
 }

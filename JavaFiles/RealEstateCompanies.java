@@ -7,6 +7,16 @@ public class RealEstateCompanies {
     private String companyZipCode;
     private String companyEmail;
 
+    public RealEstateCompanies() {
+        this.companyNumber = -1;
+        this.companyName = "N/A";
+        this.companyAddress = "N/A";
+        this.companyCity = "N/A";
+        this.companyState = "N/A";
+        this.companyZipCode = "N/A";
+        this.companyEmail = "N/A";
+    }
+
     public RealEstateCompanies(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber) {
         this.companyNumber = companyNumber;
