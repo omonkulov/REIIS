@@ -1,5 +1,9 @@
 /**
- * CommercialProperty
+ * By: Sardorbek Omonkulov
+ * 
+ * Date: 05/01/2019
+ * 
+ * This class extends MultilistProperties and calculates tax
  */
 public class CommercialProperty extends MultilistProperties {
     private final double LOCAL_RATE = 0.0435;
@@ -19,6 +23,8 @@ public class CommercialProperty extends MultilistProperties {
         this.countyTax = 0;
         this.schoolTax = 0;
         this.totalTax = 0;
+        initPropertyvalue(0, 0);
+        upDateInfo();
     }
 
     public CommercialProperty(String companyName, int companyNumber, String agentFullName, int agentNumber,
@@ -29,6 +35,8 @@ public class CommercialProperty extends MultilistProperties {
         super(companyNumber, companyName, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", agentNumber, agentFullName, "N/A",
                 agentPhoneNumber, propertyNumber, parcelNumber, propertyType, propertyAddress, propertyCity,
                 propertyState, propertyZipCode, askingPrice, landValue, buildingValue);
+        initPropertyvalue(landValue, buildingValue);
+        upDateInfo();
     }
 
     public CommercialProperty(int companyNumber, String companyName, String companyAddress, String companyCity,
@@ -43,27 +51,24 @@ public class CommercialProperty extends MultilistProperties {
                 landValue, buildingValue);
 
         initPropertyvalue(landValue, buildingValue);
-        initLocalTax();
-        initSchoolPropertyTax();
-        initCountyTax();
-        initTotalTax();
+        upDateInfo();
 
     }
 
     public double getLocalTax() {
-        return this.localTax;
+        return ((int) (this.localTax * 100.0)) / 100.0;
     }
 
     public double getCountyTax() {
-        return this.countyTax;
+        return ((int) (this.countyTax * 100.0)) / 100.0;
     }
 
     public double getSchoolTax() {
-        return this.schoolTax;
+        return ((int) (this.schoolTax * 100.0)) / 100.0;
     }
 
     public double getTotalTax() {
-        return this.totalTax;
+        return ((int) (this.totalTax * 100.0)) / 100.0;
     }
 
     @Override

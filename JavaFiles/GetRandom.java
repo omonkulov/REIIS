@@ -41,7 +41,7 @@ public class GetRandom {
     }
 
     public double randDouble(int min, int max) {
-        return ((int) ((Math.random() * max) + min) * 100) / 100.0;
+        return (((Math.random() * max) + min) * 100.0) / 100.0;
     }
 
     public String name() {

@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -93,8 +94,13 @@ public class GUIInfoJFrame extends JPanel {
     /* Misc */
     private int addingPropertyType; // 0: Residential 1:Commercial
 
+    private DecimalFormat decimal;
+
     public GUIInfoJFrame(GUISearchJFrame parent) {
         this.parentFrame = parent;
+
+        decimal = new DecimalFormat("#.00");
+
         companyName = new JTextField();
         companyNumber = new JTextField();
         agentName = new JTextField();
@@ -115,25 +121,25 @@ public class GUIInfoJFrame extends JPanel {
         schoolTax = new JLabel();
         totalTax = new JLabel();
 
-        companyNameLbl = new JLabel("Company Name:");
-        companyNumberLbl = new JLabel("Company Number:");
-        agentNameLbl = new JLabel("Agent Name:");
-        agentNumberLbl = new JLabel("Agent Number:");
-        agentPhoneNumberLbl = new JLabel("Agent Phone:");
-        propertyListNumberLbl = new JLabel("Property Number:");
-        parcelNumberLbl = new JLabel("Parcel Number:");
-        propertyTypeLbl = new JLabel("Property Type:");
-        propertyAddressLbl = new JLabel("Property Address:");
-        propertyCityLbl = new JLabel("Property City:");
-        propertyStateLbl = new JLabel("Property State:");
-        propertyZipCodeLbl = new JLabel("Propterty Zip:");
-        askingPriceLbl = new JLabel("Asking Price:");
-        buildingValueLbl = new JLabel("Building Value:");
-        landValueLbl = new JLabel("Land Value:");
-        localTaxLbl = new JLabel("Local Tax:");
-        countyTaxLbl = new JLabel("County Tax:");
-        schoolTaxLbl = new JLabel("School Tax:");
-        totalTaxLbl = new JLabel("Total Tax:");
+        companyNameLbl = new JLabel("Company Name: ");
+        companyNumberLbl = new JLabel("Company Number: ");
+        agentNameLbl = new JLabel("Agent Name: ");
+        agentNumberLbl = new JLabel("Agent Number: ");
+        agentPhoneNumberLbl = new JLabel("Agent Phone: ");
+        propertyListNumberLbl = new JLabel("Property Number: ");
+        parcelNumberLbl = new JLabel("Parcel Number: ");
+        propertyTypeLbl = new JLabel("Property Type: ");
+        propertyAddressLbl = new JLabel("Property Address: ");
+        propertyCityLbl = new JLabel("Property City: ");
+        propertyStateLbl = new JLabel("Property State: ");
+        propertyZipCodeLbl = new JLabel("Propterty Zip: ");
+        askingPriceLbl = new JLabel("Asking Price: ");
+        buildingValueLbl = new JLabel("Building Value: ");
+        landValueLbl = new JLabel("Land Value: ");
+        localTaxLbl = new JLabel("Local Tax: ");
+        countyTaxLbl = new JLabel("County Tax: ");
+        schoolTaxLbl = new JLabel("School Tax: ");
+        totalTaxLbl = new JLabel("Total Tax: ");
 
         saveInfo = new JButton("Save");
         closeINfo = new JButton("Close");
@@ -384,13 +390,13 @@ public class GUIInfoJFrame extends JPanel {
         propertyCity.setText(residential.getPropertyCity());
         propertyState.setText(residential.getPropertyState());
         propertyZipCode.setText(residential.getPropertyZipCode());
-        askingPrice.setText(residential.getAskingPrice() + "");
-        buildingValue.setText(residential.getBuildingValue() + "");
-        landValue.setText(residential.getLandValue() + "");
-        localTax.setText(residential.getLocalTax() + "");
-        countyTax.setText(residential.getCountyTax() + "");
-        schoolTax.setText(residential.getSchoolTax() + "");
-        totalTax.setText(residential.getTotalTax() + "");
+        askingPrice.setText(decimal.format(residential.getAskingPrice()));
+        buildingValue.setText(decimal.format(residential.getBuildingValue()));
+        landValue.setText(decimal.format(residential.getLandValue()));
+        localTax.setText("$ " + decimal.format(residential.getLocalTax()));
+        countyTax.setText("$ " + decimal.format(residential.getCountyTax()));
+        schoolTax.setText("$ " + decimal.format(residential.getSchoolTax()));
+        totalTax.setText("$ " + decimal.format(residential.getTotalTax()));
     }
 
     public void updateInfo(CommercialProperty commercial) {
@@ -406,13 +412,13 @@ public class GUIInfoJFrame extends JPanel {
         propertyCity.setText(commercial.getPropertyCity());
         propertyState.setText(commercial.getPropertyState());
         propertyZipCode.setText(commercial.getPropertyZipCode());
-        askingPrice.setText(commercial.getAskingPrice() + "");
-        buildingValue.setText(commercial.getBuildingValue() + "");
-        landValue.setText(commercial.getLandValue() + "");
-        localTax.setText(commercial.getLocalTax() + "");
-        countyTax.setText(commercial.getCountyTax() + "");
-        schoolTax.setText(commercial.getSchoolTax() + "");
-        totalTax.setText(commercial.getTotalTax() + "");
+        askingPrice.setText(decimal.format(commercial.getAskingPrice()));
+        buildingValue.setText(decimal.format(commercial.getBuildingValue()));
+        landValue.setText(decimal.format(commercial.getLandValue()));
+        localTax.setText("$ " + decimal.format(commercial.getLocalTax()));
+        countyTax.setText("$ " + decimal.format(commercial.getCountyTax()));
+        schoolTax.setText("$ " + decimal.format(commercial.getSchoolTax()));
+        totalTax.setText("$ " + decimal.format(commercial.getTotalTax()));
     }
 
     public void clearTxtFields() {
@@ -469,19 +475,19 @@ public class GUIInfoJFrame extends JPanel {
                 GetRandom random = new GetRandom();
                 clearTxtFields();
                 companyName.setText(random.companyName());
-                companyNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                companyNumber.setText(" " + (random.randInt(1, 9999)));
                 agentName.setText(random.name());
-                agentNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                agentNumber.setText(" " + random.randInt(1, 9999));
                 agentPhoneNumber.setText(random.phoneNumber());
-                propertyListNumber.setText(String.valueOf(random.randInt(1, 9999)));
-                parcelNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                propertyListNumber.setText(" " + random.randInt(1, 9999));
+                parcelNumber.setText(" " + random.randInt(1, 9999));
                 propertyAddress.setText(random.adress());
                 propertyCity.setText("Pittsburgh");
                 propertyState.setText("PA");
                 propertyZipCode.setText("15222");
-                askingPrice.setText(String.valueOf(random.randDouble(60000, 100000)));
-                buildingValue.setText(String.valueOf(random.randDouble(70000, 120000)));
-                landValue.setText(String.valueOf(random.randDouble(20000, 30000)));
+                askingPrice.setText(decimal.format(random.randDouble(60000, 100000)));
+                buildingValue.setText(decimal.format(random.randDouble(70000, 120000)));
+                landValue.setText(decimal.format(random.randDouble(20000, 30000)));
                 break;
             default:
                 System.out.println(temp + " : Can't find such a button, did you touch something?");
