@@ -50,7 +50,7 @@ public class GUISearchJFrame extends JFrame {
     private JButton addButton;
     private JButton editButton;
     private JButton infoButton;
-    private JButton deleteButton;
+    public JButton deleteButton; // hide this button so it won't cause problems
     private JLabel selectedLable;
 
     private ButtonListener listener;
@@ -321,27 +321,28 @@ public class GUISearchJFrame extends JFrame {
             } else if (once) {
                 infoPanel.setVisible(false);
             }
+            selectedLable.setText("Selected: " + index + "      Type: " + selectedPropertyType.toString());
             pack();
-            selectedLable
-                    .setText(": " + index + " " + selectedPropertyType.toString() + " \n " + selectedOption.toString());
         }
 
     }
 
     public void addCommercialObject(CommercialProperty c) {
         commerPropList.add(c);
-        System.out.println(c.getAgentFullName());
         updateJlist(residPropList, commerPropList);
-        jList.setSelectedIndex(residPropList.size() + commerPropList.size() - 1);
+        int lastIndex = residPropList.size() + commerPropList.size() - 1;
+        jList.setSelectedIndex(lastIndex); // adding to last one, so select the
+        jList.ensureIndexIsVisible(lastIndex);
         jListener.valueChanged(null);
         infoButton.doClick();
     }
 
     public void addResidentialObject(ResidentialProperty r) {
         residPropList.add(r);
-        System.out.println(r.getAgentFullName());
         updateJlist(residPropList, commerPropList);
-        jList.setSelectedIndex(residPropList.size() - 1);
+        int lastIndex = residPropList.size() - 1;
+        jList.setSelectedIndex(lastIndex);
+        jList.ensureIndexIsVisible(lastIndex);
         jListener.valueChanged(null);
         infoButton.doClick();
     }

@@ -276,7 +276,6 @@ public class GUIInfoJFrame extends JPanel {
 
     public void setRandomImage() {
         String path = "imgs/" + getRandomNumber() + ".jpg";
-        System.out.println(path);
         imgLabel.setIcon(new ImageIcon(path));
     }
 
@@ -328,6 +327,7 @@ public class GUIInfoJFrame extends JPanel {
     }
 
     public void info(ResidentialProperty residential) {
+        parentFrame.deleteButton.setEnabled(false);
         setVisible(true);
         updateInfo(residential);
         setTextEditable(false);
@@ -335,6 +335,7 @@ public class GUIInfoJFrame extends JPanel {
     }
 
     public void info(CommercialProperty commercial) {
+        parentFrame.deleteButton.setEnabled(false);
         setVisible(true);
         updateInfo(commercial);
         setTextEditable(false);
@@ -342,28 +343,24 @@ public class GUIInfoJFrame extends JPanel {
     }
 
     public ResidentialProperty createResidentialObject() {
-        return new ResidentialProperty(replaceEmptyFields(companyName.getText()),
-                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), replaceEmptyFields(agentName.getText()),
-                Integer.parseInt(replaceEmptyFields(agentNumber.getText())),
-                replaceEmptyFields(agentPhoneNumber.getText()),
+        return new ResidentialProperty(companyName.getText(),
+                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), agentName.getText(),
+                Integer.parseInt(replaceEmptyFields(agentNumber.getText())), agentPhoneNumber.getText(),
                 Integer.parseInt(replaceEmptyFields(propertyListNumber.getText())),
-                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'R',
-                replaceEmptyFields(propertyAddress.getText()), replaceEmptyFields(propertyCity.getText()),
-                replaceEmptyFields(propertyState.getText()), replaceEmptyFields(propertyZipCode.getText()),
+                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'C', propertyAddress.getText(),
+                propertyCity.getText(), propertyState.getText(), propertyZipCode.getText(),
                 Double.parseDouble(replaceEmptyFields(askingPrice.getText())),
                 Double.parseDouble(replaceEmptyFields(buildingValue.getText())),
                 Double.parseDouble(replaceEmptyFields(landValue.getText())));
     }
 
     public CommercialProperty createCommercialObject() {
-        return new CommercialProperty(replaceEmptyFields(companyName.getText()),
-                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), replaceEmptyFields(agentName.getText()),
-                Integer.parseInt(replaceEmptyFields(agentNumber.getText())),
-                replaceEmptyFields(agentPhoneNumber.getText()),
+        return new CommercialProperty(companyName.getText(),
+                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), agentName.getText(),
+                Integer.parseInt(replaceEmptyFields(agentNumber.getText())), agentPhoneNumber.getText(),
                 Integer.parseInt(replaceEmptyFields(propertyListNumber.getText())),
-                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'R',
-                replaceEmptyFields(propertyAddress.getText()), replaceEmptyFields(propertyCity.getText()),
-                replaceEmptyFields(propertyState.getText()), replaceEmptyFields(propertyZipCode.getText()),
+                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'C', propertyAddress.getText(),
+                propertyCity.getText(), propertyState.getText(), propertyZipCode.getText(),
                 Double.parseDouble(replaceEmptyFields(askingPrice.getText())),
                 Double.parseDouble(replaceEmptyFields(buildingValue.getText())),
                 Double.parseDouble(replaceEmptyFields(landValue.getText())));
@@ -371,13 +368,15 @@ public class GUIInfoJFrame extends JPanel {
 
     // Replaces empty string with N/A
     public String replaceEmptyFields(String s) {
-        if (s.replaceAll("\\s+", "").equalsIgnoreCase("")) {
+        s = s.replaceAll("\\s+", "");
+        if (s.isEmpty()) {
             return "0";
         }
         return s;
     }
 
     public void updateInfo(ResidentialProperty residential) {
+        parentFrame.deleteButton.setEnabled(false);
         companyName.setText(residential.getCompanyName());
         companyNumber.setText(residential.getCompanyNumber() + "");
         agentName.setText(residential.getAgentFullName());
@@ -400,6 +399,7 @@ public class GUIInfoJFrame extends JPanel {
     }
 
     public void updateInfo(CommercialProperty commercial) {
+        parentFrame.deleteButton.setEnabled(false);
         companyName.setText(commercial.getCompanyName());
         companyNumber.setText(commercial.getCompanyNumber() + "");
         agentName.setText(commercial.getAgentFullName());
@@ -451,7 +451,7 @@ public class GUIInfoJFrame extends JPanel {
                     parentFrame.addResidentialObject(createResidentialObject());
                 }
                 parentFrame.disableAllButtons(false);
-                // setVisible(false);
+                parentFrame.deleteButton.setEnabled(false);
                 break;
             case "save":
                 if (editingResidential) {
