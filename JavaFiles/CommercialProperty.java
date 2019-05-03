@@ -12,7 +12,6 @@ public class CommercialProperty extends MultilistProperties {
     private double schoolTax;
     private double totalTax;
 
-    // TODO: Overload the constructors!
     public CommercialProperty() {
         super();
         this.totalPropertyValue = 0;

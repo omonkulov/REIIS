@@ -4,13 +4,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,7 +21,8 @@ public class GUIInfoJFrame extends JPanel {
     private static final long serialVersionUID = 1L;
 
     /* Private Variables */
-    private boolean isEdit;
+
+    private boolean editingResidential;
     /* Fields */
     private JTextField companyName;
     private JTextField companyNumber;
@@ -71,6 +70,7 @@ public class GUIInfoJFrame extends JPanel {
     private JButton addInfo;
     private JButton cancle;
     private JButton closeINfo;
+    private JButton generateInfo;
 
     /* Panels */
     private JPanel companyPanel;
@@ -82,7 +82,6 @@ public class GUIInfoJFrame extends JPanel {
     private JPanel buttonsPanel;
 
     /* img */
-    private BufferedImage image;
     private JLabel imgLabel;
 
     /* Listener */
@@ -93,8 +92,6 @@ public class GUIInfoJFrame extends JPanel {
 
     /* Misc */
     private int addingPropertyType; // 0: Residential 1:Commercial
-    private CommercialProperty tempCommercialObject;
-    private ResidentialProperty tempResidentialProperty;
 
     public GUIInfoJFrame(GUISearchJFrame parent) {
         this.parentFrame = parent;
@@ -142,12 +139,14 @@ public class GUIInfoJFrame extends JPanel {
         closeINfo = new JButton("Close");
         addInfo = new JButton("Add");
         cancle = new JButton("Cancel");
+        generateInfo = new JButton("Generate");
 
         buttonListener = new ButtonActionListener();
         saveInfo.addActionListener(buttonListener);
         closeINfo.addActionListener(buttonListener);
         addInfo.addActionListener(buttonListener);
         cancle.addActionListener(buttonListener);
+        generateInfo.addActionListener(buttonListener);
 
         /* Company */
         companyPanel = new JPanel();
@@ -216,8 +215,9 @@ public class GUIInfoJFrame extends JPanel {
         buttonsPanel = new JPanel();
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         buttonsPanel.add(cancle);
-        buttonsPanel.add(addInfo);
         buttonsPanel.add(closeINfo);
+        buttonsPanel.add(addInfo);
+        buttonsPanel.add(generateInfo);
         buttonsPanel.add(saveInfo);
 
         /* Image */
@@ -279,23 +279,41 @@ public class GUIInfoJFrame extends JPanel {
         return generator.nextInt(100) % 100 / 10 + 1;
     }
 
-    public void displayInfoButtons(boolean close, boolean add, boolean save, boolean cancel) {
+    public void displayInfoButtons(boolean close, boolean add, boolean save, boolean cancel, boolean generate) {
+
         closeINfo.setVisible(close);
         addInfo.setVisible(add);
+        generateInfo.setVisible(generate);
         saveInfo.setVisible(save);
         cancle.setVisible(cancel);
+
     }
 
     public void add(int type) {
         setVisible(true);
         setTextEditable(true);
         clearTxtFields();
-        displayInfoButtons(false, true, false, true);
+        displayInfoButtons(false, true, false, true, true);
         addingPropertyType = type;
+        if (addingPropertyType == 1) {// 1: Residential
+            propertyType.setText("R: Residential");
+        } else {
+            propertyType.setText("C: Commerical");
+        }
     }
 
-    public void edit() {
+    public void edit(ResidentialProperty residential) {
+        editingResidential = true;
+        info(residential);
+        displayInfoButtons(false, false, true, true, false);
+        setTextEditable(true);
+    }
 
+    public void edit(CommercialProperty commercial) {
+        editingResidential = false;
+        info(commercial);
+        displayInfoButtons(false, false, true, true, false);
+        setTextEditable(true);
     }
 
     public void close() {
@@ -307,42 +325,46 @@ public class GUIInfoJFrame extends JPanel {
         setVisible(true);
         updateInfo(residential);
         setTextEditable(false);
-        displayInfoButtons(true, false, false, false);
+        displayInfoButtons(true, false, false, false, false);
     }
 
     public void info(CommercialProperty commercial) {
         setVisible(true);
         updateInfo(commercial);
         setTextEditable(false);
-        displayInfoButtons(true, false, false, false);
+        displayInfoButtons(true, false, false, false, false);
     }
 
     public ResidentialProperty createResidentialObject() {
-        return new ResidentialProperty(emptyToNA(companyName.getText()),
-                Integer.parseInt(emptyToNA(companyNumber.getText())), emptyToNA(agentName.getText()),
-                Integer.parseInt(emptyToNA(agentNumber.getText())), emptyToNA(agentPhoneNumber.getText()),
-                Integer.parseInt(emptyToNA(propertyListNumber.getText())),
-                Integer.parseInt(emptyToNA(parcelNumber.getText())), 'R', emptyToNA(propertyAddress.getText()),
-                emptyToNA(propertyCity.getText()), emptyToNA(propertyState.getText()),
-                emptyToNA(propertyZipCode.getText()), Double.parseDouble(emptyToNA(askingPrice.getText())),
-                Double.parseDouble(emptyToNA(buildingValue.getText())),
-                Double.parseDouble(emptyToNA(landValue.getText())));
+        return new ResidentialProperty(replaceEmptyFields(companyName.getText()),
+                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), replaceEmptyFields(agentName.getText()),
+                Integer.parseInt(replaceEmptyFields(agentNumber.getText())),
+                replaceEmptyFields(agentPhoneNumber.getText()),
+                Integer.parseInt(replaceEmptyFields(propertyListNumber.getText())),
+                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'R',
+                replaceEmptyFields(propertyAddress.getText()), replaceEmptyFields(propertyCity.getText()),
+                replaceEmptyFields(propertyState.getText()), replaceEmptyFields(propertyZipCode.getText()),
+                Double.parseDouble(replaceEmptyFields(askingPrice.getText())),
+                Double.parseDouble(replaceEmptyFields(buildingValue.getText())),
+                Double.parseDouble(replaceEmptyFields(landValue.getText())));
     }
 
     public CommercialProperty createCommercialObject() {
-        return new CommercialProperty(emptyToNA(companyName.getText()),
-                Integer.parseInt(emptyToNA(companyNumber.getText())), emptyToNA(agentName.getText()),
-                Integer.parseInt(emptyToNA(agentNumber.getText())), emptyToNA(agentPhoneNumber.getText()),
-                Integer.parseInt(emptyToNA(propertyListNumber.getText())),
-                Integer.parseInt(emptyToNA(parcelNumber.getText())), 'R', emptyToNA(propertyAddress.getText()),
-                emptyToNA(propertyCity.getText()), emptyToNA(propertyState.getText()),
-                emptyToNA(propertyZipCode.getText()), Double.parseDouble(emptyToNA(askingPrice.getText())),
-                Double.parseDouble(emptyToNA(buildingValue.getText())),
-                Double.parseDouble(emptyToNA(landValue.getText())));
+        return new CommercialProperty(replaceEmptyFields(companyName.getText()),
+                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), replaceEmptyFields(agentName.getText()),
+                Integer.parseInt(replaceEmptyFields(agentNumber.getText())),
+                replaceEmptyFields(agentPhoneNumber.getText()),
+                Integer.parseInt(replaceEmptyFields(propertyListNumber.getText())),
+                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'R',
+                replaceEmptyFields(propertyAddress.getText()), replaceEmptyFields(propertyCity.getText()),
+                replaceEmptyFields(propertyState.getText()), replaceEmptyFields(propertyZipCode.getText()),
+                Double.parseDouble(replaceEmptyFields(askingPrice.getText())),
+                Double.parseDouble(replaceEmptyFields(buildingValue.getText())),
+                Double.parseDouble(replaceEmptyFields(landValue.getText())));
     }
 
     // Replaces empty string with N/A
-    public String emptyToNA(String s) {
+    public String replaceEmptyFields(String s) {
         if (s.replaceAll("\\s+", "").equalsIgnoreCase("")) {
             return "0";
         }
@@ -417,25 +439,49 @@ public class GUIInfoJFrame extends JPanel {
 
             switch (temp) {
             case "add":
-                if (addingPropertyType == 1) { // 1: Commercial
+                if (addingPropertyType == 0) { // 0: Commercial
                     parentFrame.addCommercialObject(createCommercialObject());
-                } else { // 0 residential
+                } else { // 1 residential
                     parentFrame.addResidentialObject(createResidentialObject());
                 }
-                clearTxtFields();
                 parentFrame.disableAllButtons(false);
+                // setVisible(false);
                 break;
             case "save":
+                if (editingResidential) {
+                    parentFrame.editResidentialObject(createResidentialObject());
+                } else {
+                    parentFrame.editCommericalObject(createCommercialObject());
+                }
+                parentFrame.disableAllButtons(false);
                 break;
             case "close":
-                setVisible(false);
                 parentFrame.selectedOption = GUISearchJFrame.SelectedOption.NONE; // None
                 setVisible(false);
+                parentFrame.disableAllButtons(false);
                 break;
             case "cancel":
                 setVisible(false);
                 clearTxtFields();
                 parentFrame.disableAllButtons(false);
+                break;
+            case "generate":
+                GetRandom random = new GetRandom();
+                clearTxtFields();
+                companyName.setText(random.companyName());
+                companyNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                agentName.setText(random.name());
+                agentNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                agentPhoneNumber.setText(random.phoneNumber());
+                propertyListNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                parcelNumber.setText(String.valueOf(random.randInt(1, 9999)));
+                propertyAddress.setText(random.adress());
+                propertyCity.setText("Pittsburgh");
+                propertyState.setText("PA");
+                propertyZipCode.setText("15222");
+                askingPrice.setText(String.valueOf(random.randDouble(60000, 100000)));
+                buildingValue.setText(String.valueOf(random.randDouble(70000, 120000)));
+                landValue.setText(String.valueOf(random.randDouble(20000, 30000)));
                 break;
             default:
                 System.out.println(temp + " : Can't find such a button, did you touch something?");

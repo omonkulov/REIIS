@@ -31,7 +31,6 @@ public class ResidentialProperty extends MultilistProperties {
                 propertyState, propertyZipCode, askingPrice, landValue, buildingValue);
     }
 
-    // TODO: Overload the constructors!
     public ResidentialProperty(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber, int propertyNumber, int parcelNumber,

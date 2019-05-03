@@ -1,9 +1,9 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -29,6 +28,9 @@ import javax.swing.event.ListSelectionListener;
  * GUISearchJFrame
  */
 public class GUISearchJFrame extends JFrame {
+
+    private static int JLIST_CELL_SIZE = 340;
+    private static int RESULTSLIST_CELL_SIZE = 340;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,25 +45,24 @@ public class GUISearchJFrame extends JFrame {
 
     private JList<String> searchResultList;
     private JList<String> jList;
-    private String[] tempArray;
 
     private JButton exitButton;
     private JButton addButton;
     private JButton editButton;
     private JButton infoButton;
+    private JButton deleteButton;
     private JLabel selectedLable;
 
     private ButtonListener listener;
+    private JListListener jListener;
 
     private GUIInfoJFrame infoPanel;
-
-    private ResidentialProperty residProperty;
-    private CommercialProperty commerProperty;
 
     private ArrayList<ResidentialProperty> residPropList;
     private ArrayList<CommercialProperty> commerPropList;
 
     public DefaultListModel<String> model;
+    public DefaultListModel<String> resultsModel;
 
     public enum SelectedPropertyType {
         RESIDENTIAL, COMMERCIAL, NONE
@@ -74,30 +75,34 @@ public class GUISearchJFrame extends JFrame {
     public SelectedPropertyType selectedPropertyType;
     public SelectedOption selectedOption;
 
-    public GUISearchJFrame(ArrayList<ResidentialProperty> residPropList, ArrayList<CommercialProperty> commerPropList) {
-        this.residPropList = residPropList;
-        this.commerPropList = commerPropList;
+    private GetRandom getRandom = new GetRandom();
+
+    public GUISearchJFrame() {
+        this.residPropList = new ArrayList<ResidentialProperty>();
+        this.commerPropList = new ArrayList<CommercialProperty>();
         model = new DefaultListModel<String>();
-        residProperty = residPropList.get(0);// used for temp when passing to GUIINFO
-        commerProperty = commerPropList.get(0);// used for temp when passing to GUIINFO
+        resultsModel = new DefaultListModel<String>();
         listener = new ButtonListener();
 
         /* Frame prefrences */
         setTitle("Search Avaible Info");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         /* Seach panel */
         searchPanel = new JPanel();
-        searchPanel.setBorder(BorderFactory.createTitledBorder("Search"));
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Search by Address"));
         searchTextField = new JTextField();
         searchTextField.setPreferredSize(new Dimension(200, 28));
-
         searchButton = new JButton("Search");
         searchPanel.add(searchTextField);
         searchPanel.add(searchButton);
 
         /* Results */
-        searchResultList = new JList<String>();
+        searchResultList = new JList<String>(resultsModel);
+        searchResultList.setFixedCellWidth(RESULTSLIST_CELL_SIZE);
+        // searchResultList.setEnabled(false);
+        searchResultList.setBackground(this.getBackground());
+        searchResultList.setForeground(Color.BLACK);
         resultsPanel = new JPanel();
         resultsPanel.setBorder(BorderFactory.createTitledBorder("Results"));
         resultsPanel.add(searchResultList);
@@ -105,9 +110,10 @@ public class GUISearchJFrame extends JFrame {
         /* List panel */
         updateJlist(residPropList, commerPropList);
         jList = new JList<String>(model);
+        jList.setSize(500, 600);
         jList.setVisibleRowCount(18);
-
-        JListListener jListener = new JListListener();
+        jList.setFixedCellWidth(JLIST_CELL_SIZE);
+        jListener = new JListListener();
         jList.addListSelectionListener(jListener);
         JScrollPane sp = new JScrollPane(jList);
         listPanel = new JPanel();
@@ -121,8 +127,10 @@ public class GUISearchJFrame extends JFrame {
         addButton = new JButton("Add");
         editButton = new JButton("Edit");
         infoButton = new JButton("Info");
+        deleteButton = new JButton("Delete");
 
         buttonsPanel.add(exitButton);
+        buttonsPanel.add(deleteButton);
         buttonsPanel.add(addButton);
         buttonsPanel.add(editButton);
         buttonsPanel.add(infoButton);
@@ -133,6 +141,7 @@ public class GUISearchJFrame extends JFrame {
         infoButton.addActionListener(listener);
         addButton.addActionListener(listener);
         searchButton.addActionListener(listener);
+        deleteButton.addActionListener(listener);
 
         /* Adding components */
         parentPanel = new JPanel(new GridBagLayout());
@@ -175,23 +184,24 @@ public class GUISearchJFrame extends JFrame {
     }
 
     public void updateJlist(ArrayList<ResidentialProperty> resPropList, ArrayList<CommercialProperty> comPropList) {
-        String temp = " : ";
+        String indent = " : ";
         model.clear();
         for (int i = 0; i < resPropList.size(); i++) {
-            temp = (i > 9) ? ": " : " : "; // simply to allign numbers, 1/2
-            model.addElement(i + temp + "Company: " + resPropList.get(i).getAgentFullName() + " Agent:"
-                    + resPropList.get(i).getAgentFullName());
+            indent = (i > 9) ? ": " : "  : "; // simply to allign numbers, 1/2
+            model.addElement(i + indent + " " + resPropList.get(i).getPropertyAddress());
         }
         for (int i = 0; i < comPropList.size(); i++) {
-            model.addElement((i + resPropList.size()) + temp + "Company: " + resPropList.get(i).getCompanyName()
-                    + " Agent:" + resPropList.get(i).getAgentFullName());
+            indent = ((i + resPropList.size()) > 9) ? ": " : "  : ";
+            model.addElement(((i + resPropList.size())) + indent + " " + comPropList.get(i).getPropertyAddress());
         }
-        // try {
+        pack();
+    }
 
-        System.out.println(model);
-        // } catch (NullPointerException e) {
-        // // TODO: handle exception
-        // }
+    public void updateResultList(ArrayList<String> s) {
+        resultsModel.clear();
+        for (String a : s) {
+            resultsModel.addElement(a);
+        }
     }
 
     class ButtonListener implements ActionListener {
@@ -223,6 +233,7 @@ public class GUISearchJFrame extends JFrame {
                 }
                 break;
             case "info":
+                deleteButton.setEnabled(false);
                 selectedOption = SelectedOption.INFO;
                 if (selectedPropertyType == SelectedPropertyType.RESIDENTIAL) {
                     infoPanel.info(residPropList.get(jList.getSelectedIndex()));
@@ -236,11 +247,37 @@ public class GUISearchJFrame extends JFrame {
                 break;
             case "exit":
                 selectedOption = SelectedOption.NONE;
+                dispose();
+                System.exit(0);
                 break;
             case "edit":
+                disableAllButtons(true);
                 selectedOption = SelectedOption.EDIT;
+                if (selectedPropertyType == SelectedPropertyType.RESIDENTIAL) {
+                    infoPanel.edit(residPropList.get(jList.getSelectedIndex()));
+                } else if (selectedPropertyType == SelectedPropertyType.COMMERCIAL) {
+                    infoPanel.edit(commerPropList.get(jList.getSelectedIndex() - residPropList.size()));
+                } else {
+                    selectedLable.setText("Please select one of \nthe items in objects");
+                    selectedOption = SelectedOption.NONE;
+                }
+                pack();
                 break;
             case "search":
+                updateResultList(search(searchTextField.getText()));
+                pack();
+                break;
+            case "delete":
+                infoPanel.setVisible(false);
+                if (selectedPropertyType == SelectedPropertyType.NONE)
+                    selectedLable.setText("Please select one of \nthe items in objects");
+                else if (selectedPropertyType == SelectedPropertyType.RESIDENTIAL) {
+                    residPropList.remove(jList.getSelectedIndex());
+                } else if (selectedPropertyType == SelectedPropertyType.COMMERCIAL) {
+                    commerPropList.remove(jList.getSelectedIndex() - residPropList.size());
+                }
+                updateJlist(residPropList, commerPropList);
+                selectedPropertyType = SelectedPropertyType.NONE;
                 break;
             default:
                 System.out.println("Error in GUISearchJFrame: classButtonListener");
@@ -261,6 +298,9 @@ public class GUISearchJFrame extends JFrame {
             // statement allows one call at a time.
             once = (once) ? false : true;
             disableAllButtons(false);
+            if (selectedOption == SelectedOption.INFO) {
+                deleteButton.setEnabled(false);
+            }
             int index = jList.getSelectedIndex();
 
             if (index < residPropList.size() && once) {
@@ -292,14 +332,38 @@ public class GUISearchJFrame extends JFrame {
         commerPropList.add(c);
         System.out.println(c.getAgentFullName());
         updateJlist(residPropList, commerPropList);
-        jList.updateUI();
-
+        jList.setSelectedIndex(residPropList.size() + commerPropList.size() - 1);
+        jListener.valueChanged(null);
+        infoButton.doClick();
     }
 
     public void addResidentialObject(ResidentialProperty r) {
         residPropList.add(r);
         System.out.println(r.getAgentFullName());
         updateJlist(residPropList, commerPropList);
+        jList.setSelectedIndex(residPropList.size() - 1);
+        jListener.valueChanged(null);
+        infoButton.doClick();
+    }
+
+    public void editCommericalObject(CommercialProperty c) {
+        int selectedIndex = jList.getSelectedIndex();
+        commerPropList.set(selectedIndex - residPropList.size(), c);
+        updateJlist(residPropList, commerPropList);
+        jList.setSelectedIndex(selectedIndex);
+        jListener.valueChanged(null);
+        infoButton.doClick();
+        pack();
+    }
+
+    public void editResidentialObject(ResidentialProperty r) {
+        int selectedIndex = jList.getSelectedIndex();
+        residPropList.set(selectedIndex, r);
+        updateJlist(residPropList, commerPropList);
+        jList.setSelectedIndex(selectedIndex);
+        jListener.valueChanged(null);
+        infoButton.doClick();
+        pack();
     }
 
     public void disableAllButtons(boolean b) {
@@ -307,11 +371,73 @@ public class GUISearchJFrame extends JFrame {
         exitButton.setEnabled(!b);
         infoButton.setEnabled(!b);
         editButton.setEnabled(!b);
+        deleteButton.setEnabled(!b);
     }
 
     public void updateList() {
         jList.setModel(model);
-        ;
+
+    }
+
+    public ArrayList<String> search(String search) {
+        search = formatString(search);
+        String value;
+        String original;
+        ArrayList<String> results = new ArrayList<String>();
+        if (search.isBlank() || search.isEmpty()) {
+            results.add("Nothing Found!");
+            return results;
+        }
+        for (int i = 0; i < residPropList.size(); i++) {
+            value = residPropList.get(i).getPropertyAddress();
+            original = value;
+            value = formatString(value);
+            if (value.contains(search)) {
+                results.add("#" + i + ": " + original);
+            }
+        }
+        for (int i = 0; i < commerPropList.size(); i++) {
+            value = commerPropList.get(i).getPropertyAddress();
+            original = value;
+            value = formatString(value);
+            if (value.contains(search)) {
+                results.add("#" + (i + residPropList.size()) + ": " + original);
+            }
+        }
+        if (results.isEmpty()) {
+            results.add("Nothing Found!");
+            return results;
+        }
+        return results;
+    }
+
+    public String formatString(String s) {
+        s = s.toLowerCase();
+        s = s.replaceAll("\\s", "");
+        return s;
+    }
+
+    public void generateResidentialProperty(int amount) {
+        for (int i = 0; i <= amount; i++) {
+            residPropList.add(new ResidentialProperty(getRandom.companyName(), getRandom.randInt(0, 1000),
+                    getRandom.name(), getRandom.randInt(0, 1000), getRandom.phoneNumber(), getRandom.randInt(0, 1000),
+                    getRandom.randInt(0, 1000), 'C', getRandom.adress(), "Pittsbrugh", "PA", "15420",
+                    getRandom.randDouble(50000, 70000), getRandom.randDouble(60000, 180000),
+                    getRandom.randDouble(60000, 42)));
+        }
+        updateJlist(residPropList, commerPropList);
+    }
+
+    public void generateCommercialProperty(int amount) {
+        for (int i = 0; i < amount; i++) {
+            commerPropList.add(new CommercialProperty(getRandom.companyName(), getRandom.randInt(0, 1000),
+                    getRandom.name(), getRandom.randInt(0, 1000), getRandom.phoneNumber(), getRandom.randInt(0, 1000),
+                    getRandom.randInt(0, 1000), 'C', getRandom.adress(), "Pittsbrugh", "PA", "15420",
+                    getRandom.randDouble(50000, 70000), getRandom.randDouble(60000, 180000),
+                    getRandom.randDouble(60000, 42)));
+        }
+        updateJlist(residPropList, commerPropList);
+
     }
 
 }
