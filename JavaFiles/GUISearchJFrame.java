@@ -86,7 +86,7 @@ public class GUISearchJFrame extends JFrame {
 
         /* Frame prefrences */
         setTitle("Search Avaible Info");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Seach panel */
         searchPanel = new JPanel();

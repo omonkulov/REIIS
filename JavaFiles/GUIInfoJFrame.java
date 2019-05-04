@@ -460,6 +460,7 @@ public class GUIInfoJFrame extends JPanel {
                     parentFrame.editCommericalObject(createCommercialObject());
                 }
                 parentFrame.disableAllButtons(false);
+                parentFrame.deleteButton.setEnabled(false);
                 break;
             case "close":
                 parentFrame.selectedOption = GUISearchJFrame.SelectedOption.NONE; // None
