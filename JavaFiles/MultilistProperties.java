@@ -1,3 +1,8 @@
+/*
+ * Author   Sardorbek Omonkulov
+ * Date     05/03/2019 
+ * Purpose  MultiliestProperties- Sub class of RealEstateAgents, additionally contains Generic property information and abstract methods to calculate the taxes
+ */
 public abstract class MultilistProperties extends RealEstateAgents {
     private int propertyNumber;
     private int parcelNumber;
@@ -10,6 +15,9 @@ public abstract class MultilistProperties extends RealEstateAgents {
     private double landValue;
     private double buildingValue;
 
+    /**
+     * Create an empty property
+     */
     public MultilistProperties() {
         super();
         this.propertyNumber = -1;
@@ -23,6 +31,32 @@ public abstract class MultilistProperties extends RealEstateAgents {
         this.buildingValue = 0.00;
     }
 
+    /**
+     * Method overload: Creating object with all the details
+     * 
+     * @param companyNumber
+     * @param companyName
+     * @param companyAddress
+     * @param companyCity
+     * @param companyState
+     * @param companyZipCode
+     * @param companyEmail
+     * @param companyPhoneNumber
+     * @param agentNumber
+     * @param agentFullName
+     * @param agentEmail
+     * @param agentPhoneNumber
+     * @param propertyNumber
+     * @param parcelNumber
+     * @param propertyType
+     * @param propertyAddress
+     * @param propertyCity
+     * @param propertyState
+     * @param propertyZipCode
+     * @param askingPrice
+     * @param landValue
+     * @param buildingValue
+     */
     public MultilistProperties(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber, int propertyNumber, int parcelNumber,
@@ -44,16 +78,34 @@ public abstract class MultilistProperties extends RealEstateAgents {
         this.propertyCity = propertyCity;
     }
 
+    /**
+     * initializes & calculates the propertyValue
+     */
     public abstract void initPropertyvalue(double landValue, double buildingValue);
 
+    /**
+     * initializes & calculates the local taxes
+     */
     public abstract void initLocalTax();
 
+    /**
+     * initializes & calculates the school property taxs
+     */
     public abstract void initSchoolPropertyTax();
 
+    /**
+     * initializes & calculates the total taxs
+     */
     public abstract void initTotalTax();
 
+    /**
+     * initializes & calculates the county taxes
+     */
     public abstract void initCountyTax();
 
+    /**
+     * Recalculates the taxes, this is just for scalibilty.
+     */
     public abstract void upDateInfo();
 
     /**

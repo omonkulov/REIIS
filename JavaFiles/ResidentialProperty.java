@@ -1,9 +1,7 @@
-/**
- * By: Sardorbek Omonkulov
- * 
- * Date: 05/01/2019
- * 
- * This class extends MultilistProperties and calculates tax
+/*
+ * Author   Sardorbek Omonkulov
+ * Date     05/03/2019 
+ * Purpose  Object class to keep information about Residential Property, this class will also calculate the taxes.
  */
 public class ResidentialProperty extends MultilistProperties {
     private final double LOCAL_RATE = 0.0435;
@@ -16,6 +14,9 @@ public class ResidentialProperty extends MultilistProperties {
     private double schoolTax;
     private double totalTax;
 
+    /**
+     * Creating empty Object
+     */
     public ResidentialProperty() {
         super();
         this.totalPropertyValue = 0;
@@ -27,6 +28,25 @@ public class ResidentialProperty extends MultilistProperties {
         upDateInfo();
     }
 
+    /**
+     * Method overload: Creating object with limited information
+     * 
+     * @param companyName
+     * @param companyNumber
+     * @param agentFullName
+     * @param agentNumber
+     * @param agentPhoneNumber
+     * @param propertyNumber
+     * @param parcelNumber
+     * @param propertyType
+     * @param propertyAddress
+     * @param propertyCity
+     * @param propertyState
+     * @param propertyZipCode
+     * @param askingPrice
+     * @param buildingValue
+     * @param landValue
+     */
     public ResidentialProperty(String companyName, int companyNumber, String agentFullName, int agentNumber,
             String agentPhoneNumber, int propertyNumber, int parcelNumber, char propertyType, String propertyAddress,
             String propertyCity, String propertyState, String propertyZipCode, double askingPrice, double buildingValue,
@@ -39,6 +59,32 @@ public class ResidentialProperty extends MultilistProperties {
         upDateInfo();
     }
 
+    /**
+     * Method overload: Creating object with all the details
+     * 
+     * @param companyNumber
+     * @param companyName
+     * @param companyAddress
+     * @param companyCity
+     * @param companyState
+     * @param companyZipCode
+     * @param companyEmail
+     * @param companyPhoneNumber
+     * @param agentNumber
+     * @param agentFullName
+     * @param agentEmail
+     * @param agentPhoneNumber
+     * @param propertyNumber
+     * @param parcelNumber
+     * @param propertyType
+     * @param propertyAddress
+     * @param propertyCity
+     * @param propertyState
+     * @param propertyZipCode
+     * @param askingPrice
+     * @param landValue
+     * @param buildingValue
+     */
     public ResidentialProperty(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber, int propertyNumber, int parcelNumber,

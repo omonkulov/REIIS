@@ -1,3 +1,9 @@
+
+/*
+ * Author   Sardorbek Omonkulov
+ * Date     05/03/2019 
+ * Purpose  This is the main Jframe. This panel allows user to interact with the buttons and manage objects. 
+ */
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -5,7 +11,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -24,46 +29,46 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-/**
- * GUISearchJFrame
- */
-public class GUISearchJFrame extends JFrame {
+public class GUIMainJFrame extends JFrame {
+    private static final long serialVersionUID = 1L;
 
+    // JList Sizes
     private static int JLIST_CELL_SIZE = 340;
     private static int RESULTSLIST_CELL_SIZE = 340;
 
-    private static final long serialVersionUID = 1L;
-
     private JTextField searchTextField;
-    private JButton searchButton;
 
+    // JPanels
     private JPanel searchPanel;
     private JPanel parentPanel;
     private JPanel resultsPanel;
     private JPanel listPanel;
     private JPanel buttonsPanel;
 
-    private JList<String> searchResultList;
-    private JList<String> jList;
-
+    // Buttons
     private JButton exitButton;
     private JButton addButton;
     private JButton editButton;
     private JButton infoButton;
+    private JButton searchButton;
     public JButton deleteButton; // hide this button so it won't cause problems
-    private JLabel selectedLable;
 
+    // Misc
+    private GUIInfoJPanel infoPanel;
+    private GetRandom getRandom;
+    private JLabel selectedLable;
     private ButtonListener listener;
     private JListListener jListener;
 
-    private GUIInfoJFrame infoPanel;
-
+    // List
     private ArrayList<ResidentialProperty> residPropList;
     private ArrayList<CommercialProperty> commerPropList;
-
     public DefaultListModel<String> model;
     public DefaultListModel<String> resultsModel;
+    private JList<String> searchResultList;
+    private JList<String> jList;
 
+    // Enums to keep track of selected buttons and type of property
     public enum SelectedPropertyType {
         RESIDENTIAL, COMMERCIAL, NONE
     }
@@ -75,14 +80,13 @@ public class GUISearchJFrame extends JFrame {
     public SelectedPropertyType selectedPropertyType;
     public SelectedOption selectedOption;
 
-    private GetRandom getRandom = new GetRandom();
-
-    public GUISearchJFrame() {
+    public GUIMainJFrame() {
         this.residPropList = new ArrayList<ResidentialProperty>();
         this.commerPropList = new ArrayList<CommercialProperty>();
-        model = new DefaultListModel<String>();
-        resultsModel = new DefaultListModel<String>();
+        model = new DefaultListModel<String>(); // This allows to dynamically change items in the JList
+        resultsModel = new DefaultListModel<String>(); // This allows to dynamically change items in the JList
         listener = new ButtonListener();
+        getRandom = new GetRandom();
 
         /* Frame prefrences */
         setTitle("Search Avaible Info");
@@ -146,20 +150,21 @@ public class GUISearchJFrame extends JFrame {
         /* Adding components */
         parentPanel = new JPanel(new GridBagLayout());
         parentPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
-
         selectedLable = new JLabel("Selected: XXXXXX");
-        addComp(parentPanel, selectedLable, 1, 5, 2, 1, GridBagConstraints.HORIZONTAL, 0, 0);
-        addComp(parentPanel, searchPanel, 2, 2, 2, 1, GridBagConstraints.HORIZONTAL, 0, 0);
-        addComp(parentPanel, resultsPanel, 2, 3, 2, 1, GridBagConstraints.BOTH, 0, 0);
-        addComp(parentPanel, listPanel, 4, 1, 2, 4, GridBagConstraints.BOTH, 0, 0);
-        addComp(parentPanel, buttonsPanel, 4, 5, 4, 1, GridBagConstraints.HORIZONTAL, 0, 0);
+        addComponent(parentPanel, selectedLable, 1, 5, 2, 1, GridBagConstraints.HORIZONTAL, 0, 0);
+        addComponent(parentPanel, searchPanel, 2, 2, 2, 1, GridBagConstraints.HORIZONTAL, 0, 0);
+        addComponent(parentPanel, resultsPanel, 2, 3, 2, 1, GridBagConstraints.BOTH, 0, 0);
+        addComponent(parentPanel, listPanel, 4, 1, 2, 4, GridBagConstraints.BOTH, 0, 0);
+        addComponent(parentPanel, buttonsPanel, 4, 5, 4, 1, GridBagConstraints.HORIZONTAL, 0, 0);
 
+        /* Adding Parent panel to the Jframe */
         add(parentPanel);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         add(new JSeparator(JSeparator.HORIZONTAL));
-        infoPanel = new GUIInfoJFrame(this);
+        infoPanel = new GUIInfoJPanel(this);
         add(infoPanel);
 
+        /* Setting up everything */
         infoPanel.setVisible(false);
         pack();
         setLocationRelativeTo(null);
@@ -170,8 +175,21 @@ public class GUISearchJFrame extends JFrame {
         selectedOption = SelectedOption.NONE;
     }
 
-    private void addComp(JPanel panel, JComponent comp, int x, int y, int gWidth, int gHeight, int fill, double weightx,
-            double weighty) {
+    /**
+     * This helps to add component in GridBagLayout.
+     * 
+     * @param panel
+     * @param comp
+     * @param x
+     * @param y
+     * @param gWidth
+     * @param gHeight
+     * @param fill
+     * @param weightx
+     * @param weighty
+     */
+    private void addComponent(JPanel panel, JComponent comp, int x, int y, int gWidth, int gHeight, int fill,
+            double weightx, double weighty) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -183,6 +201,13 @@ public class GUISearchJFrame extends JFrame {
         panel.add(comp, gbc);
     }
 
+    /**
+     * This method takes both properties and adds them into the DefaultListModel,
+     * which is then used in JList to list items stored in DefaultListModel.
+     * 
+     * @param resPropList
+     * @param comPropList
+     */
     public void updateJlist(ArrayList<ResidentialProperty> resPropList, ArrayList<CommercialProperty> comPropList) {
         String indent = " : ";
         model.clear();
@@ -280,7 +305,7 @@ public class GUISearchJFrame extends JFrame {
                 selectedPropertyType = SelectedPropertyType.NONE;
                 break;
             default:
-                System.out.println("Error in GUISearchJFrame: classButtonListener");
+                System.out.println("Error in GUIMainJFrame: classButtonListener");
                 break;
             }
             pack();

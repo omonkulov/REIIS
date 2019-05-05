@@ -1,10 +1,19 @@
+/*
+ * Author   Sardorbek Omonkulov
+ * Date     05/03/2019 
+ * Purpose  Sub class of RealEstateCompanies, additionally contains Agent's information such as agent number, full name, email and phone number
+ */
 public class RealEstateAgents extends RealEstateCompanies {
 
+    // Agent's information
     private int agentNumber;
     private String agentFullName;
     private String agentEmail;
     private String agentPhoneNumber;
 
+    /**
+     * Constructor to create an empty oobject
+     */
     public RealEstateAgents() {
         super();
         this.agentNumber = -1;
@@ -13,6 +22,22 @@ public class RealEstateAgents extends RealEstateCompanies {
         this.agentPhoneNumber = "N/A";
     }
 
+    /**
+     * Overload constructor to create an object with full details
+     * 
+     * @param companyNumber
+     * @param companyName
+     * @param companyAddress
+     * @param companyCity
+     * @param companyState
+     * @param companyZipCode
+     * @param companyEmail
+     * @param companyPhoneNumber
+     * @param agentNumber
+     * @param agentFullName
+     * @param agentEmail
+     * @param agentPhoneNumber
+     */
     public RealEstateAgents(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber, int agentNumber,
             String agentFullName, String agentEmail, String agentPhoneNumber) {

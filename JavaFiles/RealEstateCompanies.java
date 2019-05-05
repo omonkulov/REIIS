@@ -1,4 +1,11 @@
+
+/*
+ * Author   Sardorbek Omonkulov
+ * Date     05/03/2019 
+ * Purpose  Super class which includes the information of Real Estate company.
+ */
 public class RealEstateCompanies {
+    // Company's infomation
     private int companyNumber;
     private String companyName;
     private String companyAddress;
@@ -7,6 +14,7 @@ public class RealEstateCompanies {
     private String companyZipCode;
     private String companyEmail;
 
+    // Constructor to create an empty object
     public RealEstateCompanies() {
         this.companyNumber = -1;
         this.companyName = "N/A";
@@ -17,6 +25,18 @@ public class RealEstateCompanies {
         this.companyEmail = "N/A";
     }
 
+    /**
+     * Overload to create an object will all the detials
+     * 
+     * @param companyNumber
+     * @param companyName
+     * @param companyAddress
+     * @param companyCity
+     * @param companyState
+     * @param companyZipCode
+     * @param companyEmail
+     * @param companyPhoneNumber
+     */
     public RealEstateCompanies(int companyNumber, String companyName, String companyAddress, String companyCity,
             String companyState, String companyZipCode, String companyEmail, String companyPhoneNumber) {
         this.companyNumber = companyNumber;

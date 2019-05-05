@@ -1,3 +1,10 @@
+
+/*
+ * Author   Sardorbek Omonkulov
+ * Date     05/03/2019 
+ * Purpose  This is the info Panel that shows up at the buttom of the panel when a button pressed(respectively).
+ *          Show the info and allows to make edits and add objects and can be closed when it is not necessary.
+ */
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -6,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.Random;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,16 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-/**
- * GUIInfoJFrame
- */
-public class GUIInfoJFrame extends JPanel {
+public class GUIInfoJPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    /* Private Variables */
-
-    private boolean editingResidential;
-    /* Fields */
+    /* Text Fields */
     private JTextField companyName;
     private JTextField companyNumber;
     private JTextField agentName;
@@ -82,25 +82,19 @@ public class GUIInfoJFrame extends JPanel {
     private JPanel imgPanel;
     private JPanel buttonsPanel;
 
-    /* img */
-    private JLabel imgLabel;
-
-    /* Listener */
-    private ButtonActionListener buttonListener;
-
-    /* Parent Frame */
-    private GUISearchJFrame parentFrame;
-
     /* Misc */
+    private JLabel imgLabel; // image label
+    private ButtonActionListener buttonListener; // button click listener
+    private GUIMainJFrame parentFrame; // This necessary to update Jlist in GUISearchJframe
     private int addingPropertyType; // 0: Residential 1:Commercial
+    private boolean editingResidential; // To distinguish which type of object is being edited
+    private DecimalFormat decimal; // To format the out of the prices
 
-    private DecimalFormat decimal;
-
-    public GUIInfoJFrame(GUISearchJFrame parent) {
+    public GUIInfoJPanel(GUIMainJFrame parent) {
         this.parentFrame = parent;
 
+        // initialization
         decimal = new DecimalFormat("#.00");
-
         companyName = new JTextField();
         companyNumber = new JTextField();
         agentName = new JTextField();
@@ -120,7 +114,6 @@ public class GUIInfoJFrame extends JPanel {
         countyTax = new JLabel();
         schoolTax = new JLabel();
         totalTax = new JLabel();
-
         companyNameLbl = new JLabel("Company Name: ");
         companyNumberLbl = new JLabel("Company Number: ");
         agentNameLbl = new JLabel("Agent Name: ");
@@ -140,21 +133,21 @@ public class GUIInfoJFrame extends JPanel {
         countyTaxLbl = new JLabel("County Tax: ");
         schoolTaxLbl = new JLabel("School Tax: ");
         totalTaxLbl = new JLabel("Total Tax: ");
-
         saveInfo = new JButton("Save");
         closeINfo = new JButton("Close");
         addInfo = new JButton("Add");
         cancle = new JButton("Cancel");
         generateInfo = new JButton("Generate");
-
         buttonListener = new ButtonActionListener();
+
+        // Button Listeners
         saveInfo.addActionListener(buttonListener);
         closeINfo.addActionListener(buttonListener);
         addInfo.addActionListener(buttonListener);
         cancle.addActionListener(buttonListener);
         generateInfo.addActionListener(buttonListener);
 
-        /* Company */
+        /* Company Panel */
         companyPanel = new JPanel();
         companyPanel.setBorder(BorderFactory.createTitledBorder("Company"));
         companyPanel.setLayout(new GridLayout(2, 2, 5, 5));
@@ -163,7 +156,7 @@ public class GUIInfoJFrame extends JPanel {
         companyPanel.add(companyNumberLbl);
         companyPanel.add(companyNumber);
 
-        /* Agent */
+        /* Agent Panel */
         agentPanel = new JPanel();
         agentPanel.setLayout(new GridLayout(3, 2, 0, 5));
         agentPanel.setBorder(BorderFactory.createTitledBorder("Agent"));
@@ -174,7 +167,7 @@ public class GUIInfoJFrame extends JPanel {
         agentPanel.add(agentPhoneNumberLbl);
         agentPanel.add(agentPhoneNumber);
 
-        /* Property */
+        /* Property Panel */
         propertyPanel = new JPanel();
         propertyPanel.setLayout(new GridLayout(7, 2, 10, 10));
         propertyPanel.setBorder(BorderFactory.createTitledBorder("Property"));
@@ -193,7 +186,7 @@ public class GUIInfoJFrame extends JPanel {
         propertyPanel.add(propertyZipCodeLbl);
         propertyPanel.add(propertyZipCode);
 
-        /* Value & Price */
+        /* Value & Price Panel */
         valuePanel = new JPanel();
         valuePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         valuePanel.setLayout(new GridLayout(3, 2, 0, 5));
@@ -204,7 +197,7 @@ public class GUIInfoJFrame extends JPanel {
         valuePanel.add(landValueLbl);
         valuePanel.add(landValue);
 
-        /* Taxes */
+        /* Taxes Panel */
         taxesPanel = new JPanel();
         taxesPanel.setLayout(new GridLayout(4, 2, 0, 5));
         taxesPanel.setBorder(BorderFactory.createTitledBorder("Taxes"));
@@ -235,17 +228,30 @@ public class GUIInfoJFrame extends JPanel {
         /* Putting it all together */
         setBorder(new EmptyBorder(15, 15, 15, 15));
         setLayout(new GridBagLayout());
-        addComp(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, companyPanel);
-        addComp(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, agentPanel);
-        addComp(0, 1, 2, 3, 0.0, 0.0, GridBagConstraints.BOTH, propertyPanel);
-        addComp(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, valuePanel);
-        addComp(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, taxesPanel);
-        addComp(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, imgPanel);
-        addComp(0, 5, 5, 1, 0.0, 0.0, GridBagConstraints.HORIZONTAL, buttonsPanel);
+        addComponent(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, companyPanel);
+        addComponent(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, agentPanel);
+        addComponent(0, 1, 2, 3, 0.0, 0.0, GridBagConstraints.BOTH, propertyPanel);
+        addComponent(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, valuePanel);
+        addComponent(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, taxesPanel);
+        addComponent(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.BOTH, imgPanel);
+        addComponent(0, 5, 5, 1, 0.0, 0.0, GridBagConstraints.HORIZONTAL, buttonsPanel);
 
     }
 
-    private void addComp(int x, int y, int gWidth, int gHeight, double weightx, double weighty, int fill, JPanel comp) {
+    /**
+     * This helps to add component in GridBagLayout.
+     * 
+     * @param x       int horizontal location in grid
+     * @param y       int vertical location in grid
+     * @param gWidth  int grid cell width
+     * @param gHeight int grid cell height
+     * @param weightx double grid weight x-wise
+     * @param weighty double grid weight x-wise
+     * @param fill    int 0 or 1 to fill up
+     * @param comp    component
+     */
+    private void addComponent(int x, int y, int gWidth, int gHeight, double weightx, double weighty, int fill,
+            JPanel comp) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -257,6 +263,12 @@ public class GUIInfoJFrame extends JPanel {
         add(comp, gbc);
     }
 
+    /**
+     * This method disabled or enables all the textfields depending on the given
+     * boolean parameter
+     * 
+     * @param i boolean set text editable
+     */
     public void setTextEditable(boolean i) {
         companyName.setEditable(i);
         companyNumber.setEditable(i);
@@ -274,32 +286,55 @@ public class GUIInfoJFrame extends JPanel {
         landValue.setEditable(i);
     }
 
+    /**
+     * Sets random image to the imglabel
+     */
     public void setRandomImage() {
         String path = "imgs/" + getRandomNumber() + ".jpg";
         imgLabel.setIcon(new ImageIcon(path));
     }
 
+    /**
+     * Get random integer from 100 to 1, used in setRandomImage() to get a image
+     * number from img file
+     * 
+     * @return random int
+     */
     public int getRandomNumber() {
         Random generator = new Random(System.currentTimeMillis());
         return generator.nextInt(100) % 100 / 10 + 1;
     }
 
+    /**
+     * This methods allows you to choose which buttons to be disabled depending on
+     * what is active. For instnace, when user clicks "info", then we only need to
+     * display close button
+     * 
+     * @param close    boolean
+     * @param add      boolean
+     * @param save     boolean
+     * @param cancel   boolean
+     * @param generate boolean
+     */
     public void displayInfoButtons(boolean close, boolean add, boolean save, boolean cancel, boolean generate) {
-
         closeINfo.setVisible(close);
         addInfo.setVisible(add);
         generateInfo.setVisible(generate);
         saveInfo.setVisible(save);
         cancle.setVisible(cancel);
-
     }
 
-    public void add(int type) {
+    /**
+     * This method is called to add an object to create a properiet property object
+     * 
+     * @param typeOfProperty 1 = Residential, 0 = Commercial, -1 = Error
+     */
+    public void add(int typeOfProperty) {
         setVisible(true);
         setTextEditable(true);
         clearTxtFields();
         displayInfoButtons(false, true, false, true, true);
-        addingPropertyType = type;
+        addingPropertyType = typeOfProperty;
         if (addingPropertyType == 1) {// 1: Residential
             propertyType.setText("R: Residential");
         } else {
@@ -307,6 +342,11 @@ public class GUIInfoJFrame extends JPanel {
         }
     }
 
+    /**
+     * This method will allow user to edit selected Residential Object.
+     * 
+     * @param residential Residential Object
+     */
     public void edit(ResidentialProperty residential) {
         editingResidential = true;
         info(residential);
@@ -314,6 +354,11 @@ public class GUIInfoJFrame extends JPanel {
         setTextEditable(true);
     }
 
+    /**
+     * This method will allow user to edit selected CommercialProperty Object.
+     * 
+     * @param commercial
+     */
     public void edit(CommercialProperty commercial) {
         editingResidential = false;
         info(commercial);
@@ -321,11 +366,11 @@ public class GUIInfoJFrame extends JPanel {
         setTextEditable(true);
     }
 
-    public void close() {
-        setVisible(false);
-
-    }
-
+    /**
+     * This method will show info of Residential Property
+     * 
+     * @param residential
+     */
     public void info(ResidentialProperty residential) {
         parentFrame.deleteButton.setEnabled(false);
         setVisible(true);
@@ -334,6 +379,11 @@ public class GUIInfoJFrame extends JPanel {
         displayInfoButtons(true, false, false, false, false);
     }
 
+    /**
+     * This method will show info of Commercial Property
+     * 
+     * @param commercial
+     */
     public void info(CommercialProperty commercial) {
         parentFrame.deleteButton.setEnabled(false);
         setVisible(true);
@@ -342,32 +392,48 @@ public class GUIInfoJFrame extends JPanel {
         displayInfoButtons(true, false, false, false, false);
     }
 
+    /**
+     * Creates Residential Property Object using the information in textfields. Used
+     * to "add" new Object or "edit" object.
+     * 
+     * @return ResidentialProperty
+     */
     public ResidentialProperty createResidentialObject() {
-        return new ResidentialProperty(companyName.getText(),
-                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), agentName.getText(),
-                Integer.parseInt(replaceEmptyFields(agentNumber.getText())), agentPhoneNumber.getText(),
-                Integer.parseInt(replaceEmptyFields(propertyListNumber.getText())),
-                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'C', propertyAddress.getText(),
+        return new ResidentialProperty(companyName.getText(), Integer.parseInt(removeSpace(companyNumber.getText())),
+                agentName.getText(), Integer.parseInt(removeSpace(agentNumber.getText())), agentPhoneNumber.getText(),
+                Integer.parseInt(removeSpace(propertyListNumber.getText())),
+                Integer.parseInt(removeSpace(parcelNumber.getText())), 'C', propertyAddress.getText(),
                 propertyCity.getText(), propertyState.getText(), propertyZipCode.getText(),
-                Double.parseDouble(replaceEmptyFields(askingPrice.getText())),
-                Double.parseDouble(replaceEmptyFields(buildingValue.getText())),
-                Double.parseDouble(replaceEmptyFields(landValue.getText())));
+                Double.parseDouble(removeSpace(askingPrice.getText())),
+                Double.parseDouble(removeSpace(buildingValue.getText())),
+                Double.parseDouble(removeSpace(landValue.getText())));
     }
 
+    /**
+     * Creates Commercial PropertyObject using the information in textfields. Used
+     * to "add" new Object or "edit" object.
+     * 
+     * @return CommercialProperty
+     */
     public CommercialProperty createCommercialObject() {
-        return new CommercialProperty(companyName.getText(),
-                Integer.parseInt(replaceEmptyFields(companyNumber.getText())), agentName.getText(),
-                Integer.parseInt(replaceEmptyFields(agentNumber.getText())), agentPhoneNumber.getText(),
-                Integer.parseInt(replaceEmptyFields(propertyListNumber.getText())),
-                Integer.parseInt(replaceEmptyFields(parcelNumber.getText())), 'C', propertyAddress.getText(),
+        return new CommercialProperty(companyName.getText(), Integer.parseInt(removeSpace(companyNumber.getText())),
+                agentName.getText(), Integer.parseInt(removeSpace(agentNumber.getText())), agentPhoneNumber.getText(),
+                Integer.parseInt(removeSpace(propertyListNumber.getText())),
+                Integer.parseInt(removeSpace(parcelNumber.getText())), 'C', propertyAddress.getText(),
                 propertyCity.getText(), propertyState.getText(), propertyZipCode.getText(),
-                Double.parseDouble(replaceEmptyFields(askingPrice.getText())),
-                Double.parseDouble(replaceEmptyFields(buildingValue.getText())),
-                Double.parseDouble(replaceEmptyFields(landValue.getText())));
+                Double.parseDouble(removeSpace(askingPrice.getText())),
+                Double.parseDouble(removeSpace(buildingValue.getText())),
+                Double.parseDouble(removeSpace(landValue.getText())));
     }
 
-    // Replaces empty string with N/A
-    public String replaceEmptyFields(String s) {
+    /**
+     * This method will remove spaces and returns the modified string: used before
+     * parsing into int or double
+     * 
+     * @param string
+     * @return String
+     */
+    public String removeSpace(String s) {
         s = s.replaceAll("\\s+", "");
         if (s.isEmpty()) {
             return "0";
@@ -375,6 +441,11 @@ public class GUIInfoJFrame extends JPanel {
         return s;
     }
 
+    /**
+     * This will update the residential information on the INFO Panel
+     * 
+     * @param residential
+     */
     public void updateInfo(ResidentialProperty residential) {
         parentFrame.deleteButton.setEnabled(false);
         companyName.setText(residential.getCompanyName());
@@ -398,6 +469,11 @@ public class GUIInfoJFrame extends JPanel {
         totalTax.setText("$ " + decimal.format(residential.getTotalTax()));
     }
 
+    /**
+     * This will update the commercial information on the INFO Panel
+     * 
+     * @param commercial
+     */
     public void updateInfo(CommercialProperty commercial) {
         parentFrame.deleteButton.setEnabled(false);
         companyName.setText(commercial.getCompanyName());
@@ -421,6 +497,9 @@ public class GUIInfoJFrame extends JPanel {
         totalTax.setText("$ " + decimal.format(commercial.getTotalTax()));
     }
 
+    /**
+     * Clears text fields
+     */
     public void clearTxtFields() {
         companyName.setText("");
         companyNumber.setText("");
@@ -438,6 +517,7 @@ public class GUIInfoJFrame extends JPanel {
         landValue.setText("");
     }
 
+    // Class for listing buttons
     class ButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String temp = e.getActionCommand();
@@ -463,7 +543,7 @@ public class GUIInfoJFrame extends JPanel {
                 parentFrame.deleteButton.setEnabled(false);
                 break;
             case "close":
-                parentFrame.selectedOption = GUISearchJFrame.SelectedOption.NONE; // None
+                parentFrame.selectedOption = GUIMainJFrame.SelectedOption.NONE; // None
                 setVisible(false);
                 parentFrame.disableAllButtons(false);
                 break;
