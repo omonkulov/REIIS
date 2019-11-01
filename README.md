@@ -3,6 +3,7 @@
 - [My Comments & Revisement.](#1)
 - [REAL ESTATE INQUIRY INFORMATION SYSTEM (REIIS)](#2)
 - [List of things to learn](#3)
+- [Screenshots](#4)
 
 
 ## <a id="1"></a>My Comments & Revisement.
@@ -159,3 +160,9 @@ The followings are required to be mastered:
 - abstract class/methods
 - overriding
 - acessor & mutator methods
+
+
+## <a id="4"/>Screenshots
+![1](https://raw.githubusercontent.com/omonkulov/REIIS/master/Preview/1.png)
+![2](https://raw.githubusercontent.com/omonkulov/REIIS/master/Preview/2.png)
+![3](https://raw.githubusercontent.com/omonkulov/REIIS/master/Preview/3.png)
