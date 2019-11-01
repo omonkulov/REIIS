@@ -221,7 +221,7 @@ public class GUIInfoJPanel extends JPanel {
 
         /* Image */
         imgPanel = new JPanel();
-        imgLabel = new JLabel(new ImageIcon("imgs/" + getRandomNumber() + ".jpg"));
+        imgLabel = new JLabel(new ImageIcon("JavaFiles/imgs/" + getRandomNumber() + ".jpg"));
         imgLabel.setSize(new Dimension(40, 40));
         imgPanel.add(imgLabel);
 
@@ -290,7 +290,7 @@ public class GUIInfoJPanel extends JPanel {
      * Sets random image to the imglabel
      */
     public void setRandomImage() {
-        String path = "imgs/" + getRandomNumber() + ".jpg";
+        String path = "JavaFiles/imgs/" + getRandomNumber() + ".jpg";
         imgLabel.setIcon(new ImageIcon(path));
     }
 

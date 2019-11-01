@@ -167,6 +167,7 @@ public class GUIMainJFrame extends JFrame {
         /* Setting up everything */
         infoPanel.setVisible(false);
         pack();
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
 

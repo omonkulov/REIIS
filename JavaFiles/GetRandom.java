@@ -86,7 +86,7 @@ public class GetRandom {
      * @return String
      */
     public String name() {
-        String path = "txtFiles/names.txt";
+        String path = "JavaFiles/txtFiles/names.txt";
         try {
             return readFile(path, randInt(0, getLineCount(path) - 1));
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class GetRandom {
      * @return String
      */
     public String phoneNumber() {
-        String path = "txtFiles/phoneNumbers.txt";
+        String path = "JavaFiles/txtFiles/phoneNumbers.txt";
         try {
             return readFile(path, randInt(0, getLineCount(path) - 1));
         } catch (Exception e) {
@@ -116,7 +116,7 @@ public class GetRandom {
      * @return String
      */
     public String adress() {
-        String path = "txtFiles/address.txt";
+        String path = "JavaFiles/txtFiles/address.txt";
         try {
             return readFile(path, randInt(0, getLineCount(path) - 1));
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class GetRandom {
      * @return String
      */
     public String companyName() {
-        String path = "txtFiles/companies.txt";
+        String path = "JavaFiles/txtFiles/companies.txt";
         try {
             return readFile(path, randInt(0, getLineCount(path) - 1));
         } catch (Exception e) {
